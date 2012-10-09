@@ -1,0 +1,68 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+	<meta charset="UTF-8">
+	<title>HandleBars</title>
+	<link rel="stylesheet" href="http://twitter.github.com/bootstrap/assets/css/bootstrap.css" />
+	<style type="text/css">
+	  body > div {padding:3px 0 0 20px;}
+	</style>
+</head>
+<body>
+	<div>
+		<h3>Template 1 - Table</h3>
+		<div id="table"></div>
+	</div>
+	<div>
+		<h3>Template 2 - Div</h3>
+		<div id="div"></div>
+	</div>
+</body>
+<script type="text/javascript" src="http://cloud.github.com/downloads/wycats/handlebars.js/handlebars-1.0.rc.1.js"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+<script type="text/javascript">
+  $(function() {
+		//Variável reponsável por guardar o template de "table"
+	  var tableTemplate = null;
+	  //Carrega o template de "table";
+		$.ajax({
+			url: 'table.hb',
+			dataType: 'html',
+			async: false,
+			success: function (template) {
+				if (template) {
+					tableTemplate = Handlebars.compile(template);
+				}
+			}
+		});
+		//Dados que seram passados para o template.
+		var context = {"pessoas":[{"nome":"Pedro","idade":23},{"nome":"Kleber","idade":20},{"nome":"Marcos","idade":31}]};
+		//Gera o html de acordo com o JSON passado.
+		var tableHtml = tableTemplate(context);
+		//Seta o html para a div#table, outra opção seria $('#table').html(tableTemplate(context));
+		$('#table').html(tableHtml);
+		
+		
+		/******************************************
+		 * Agora iremos montar o template de DIV
+		 ******************************************/
+		//Variável reponsável por guardar o template de "div"
+	  var divTemplate = null;
+	  //Carrega o template de "table";
+		$.ajax({
+			url: 'div.hb',
+			dataType: 'html',
+			async: false,
+			success: function (template) {
+				if (template) {
+					divTemplate = Handlebars.compile(template);
+				}
+			}
+		});
+		//Gera o html de acordo com o JSON passado (usaremos o mesmo que do template "table").
+		var divHtml = divTemplate(context);
+		//Seta o html para a div#div, outra opção seria $('#div').html(divTemplate(context));
+		$('#div').html(divHtml);
+  });
+</script>
+</html>
